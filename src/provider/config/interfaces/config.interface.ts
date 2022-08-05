@@ -1,5 +1,10 @@
+export enum AppEnvironmentType {
+  'development',
+  'production',
+}
+
 export interface AppConfig {
-  readonly environment: string;
+  readonly environment: AppEnvironmentType;
   readonly port: number;
 }
 
@@ -19,4 +24,6 @@ export type ConfigKey = 'app' | 'token' | 'ThrottleConfig';
 
 export interface Config {
   app: AppConfig;
+  token: TokenConfig;
+  throttle: ThrottleConfig;
 }
