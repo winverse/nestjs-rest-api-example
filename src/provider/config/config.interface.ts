@@ -1,6 +1,6 @@
 export enum AppEnvironmentType {
-  'development',
-  'production',
+  'development' = 'development',
+  'production' = 'production',
 }
 
 export interface AppConfig {
