@@ -1,7 +1,17 @@
-export const config = {
+import { Config } from '@provider/config';
+
+export const config: Config = {
   app: {
     environment: 'development',
     port: 5001,
+  },
+  database: {
+    provider: 'postgresql',
+    host: '',
+    database: '',
+    port: 5432,
+    userName: '',
+    password: '',
   },
   token: {
     // Using openssl rand -hex 32

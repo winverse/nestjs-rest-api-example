@@ -1,0 +1,23 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  usename   String   @unique @db.VarChar(15)
+  email     String   @unique @db.VarChar(50)
+  password  String
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  Post      Post[]
+}
+
+model Post {
+  id        String @id @default(cuid())
+  title     String @db.VarChar(50)
+  content   String @db.Text
+  thumbnail String @db.VarChar()
+  fkUserId  String @unique
+  user      User   @relation(fields: [fkUserId], references: [id], onDelete: Cascade)
+}

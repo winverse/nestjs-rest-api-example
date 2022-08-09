@@ -1,11 +1,20 @@
-export enum AppEnvironmentType {
-  'development' = 'development',
-  'production' = 'production',
+export interface AppConfig {
+  readonly environment: 'development' | 'production';
+  readonly port: number;
 }
 
-export interface AppConfig {
-  readonly environment: AppEnvironmentType;
+export interface DatabaseConfig {
+  readonly provider:
+    | 'postgresql'
+    | 'cockroachdb'
+    | 'mongodb'
+    | 'mysql'
+    | 'sqlite';
+  readonly host: string;
+  readonly database: string;
   readonly port: number;
+  readonly userName: string;
+  readonly password: string;
 }
 
 export interface TokenConfig {
@@ -24,6 +33,7 @@ export type ConfigKey = 'app' | 'token' | 'ThrottleConfig';
 
 export interface Config {
   app: AppConfig;
+  database: DatabaseConfig;
   token: TokenConfig;
   throttle: ThrottleConfig;
 }
