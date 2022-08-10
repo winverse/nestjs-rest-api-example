@@ -16,6 +16,14 @@ const validate = (config: Config): void => {
       accessTokenMaxAge: Joi.number().integer().required(),
       refreshTokenMaxAge: Joi.number().integer().required(),
     }),
+    database: Joi.object().keys({
+      provider: Joi.string().required(),
+      host: Joi.string().required(),
+      database: Joi.string().required(),
+      port: Joi.number().required(),
+      userName: Joi.string().required(),
+      password: Joi.string().allow('').required(),
+    }),
     throttle: Joi.object().keys({
       ttl: Joi.number().integer().required(),
       limit: Joi.number().integer().required(),

@@ -3,7 +3,8 @@ import { Config } from '@provider/config';
 export const config: Config = {
   app: {
     environment: 'development',
-    port: 5001,
+    port: 8080,
+    apiHost: 'http://localhost:8080',
   },
   database: {
     provider: 'postgresql',
@@ -17,7 +18,7 @@ export const config: Config = {
     // Using openssl rand -hex 32
     jwtSecret: '',
     cookieSecret: '',
-    accessTokenMaxAge: 60 * 5, // 5minute, max age base on 1ms
+    accessTokenMaxAge: 60 * 5, // 5 minute, max age base on 1ms
     refreshTokenMaxAge: 60 * 60 * 24 * 7, // 7days
   },
   throttle: {

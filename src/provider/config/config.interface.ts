@@ -1,6 +1,7 @@
 export interface AppConfig {
   readonly environment: 'development' | 'production';
   readonly port: number;
+  readonly apiHost: string;
 }
 
 export interface DatabaseConfig {
@@ -29,7 +30,7 @@ export interface ThrottleConfig {
   readonly limit: number;
 }
 
-export type ConfigKey = 'app' | 'token' | 'ThrottleConfig';
+export type ConfigKey = 'app' | 'database' | 'token' | 'throttle';
 
 export interface Config {
   app: AppConfig;
