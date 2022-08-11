@@ -1,10 +1,13 @@
 {
   "name": "nest-rest-api-example",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
-  "license": "UNLICENSED",
+  "description": "nest rest api for real world",
+  "author": "SangHyun Jang",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">= 16.13.1"
+  },
   "scripts": {
     "prisma:generate": "yarn write:env && npx prisma generate",
     "prisma:push": "yarn write:env && npx prisma db push",
@@ -25,6 +28,7 @@
   },
   "dependencies": {
     "@fastify/cookie": "^7.3.1",
+    "@fastify/static": "^6.5.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
