@@ -5,6 +5,7 @@ import { PrismaModule } from './provider/prisma/prisma.module';
 import { JwtModule } from './provider/jwt/jwt.module';
 import { CookieModule } from './provider/cookie/cookie.module';
 import { UtilsModule } from './provider/utils/utils.module';
+import { LoggerModule } from './provider/logger/logger.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { UtilsModule } from './provider/utils/utils.module';
     JwtModule,
     CookieModule,
     UtilsModule,
+    LoggerModule,
   ],
   providers: [ConfigService],
 })
