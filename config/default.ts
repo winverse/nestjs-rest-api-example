@@ -14,10 +14,10 @@ export const config: Config = {
     userName: '',
     password: '',
   },
-  token: {
+  jwt: {
     // Using openssl rand -hex 32
-    jwtSecret: '',
-    cookieSecret: '',
+    jwtSecretKey: '',
+    cookieSecretKey: '',
     accessTokenMaxAge: 60 * 5, // 5 minute, max age base on 1ms
     refreshTokenMaxAge: 60 * 60 * 24 * 7, // 7days
   },

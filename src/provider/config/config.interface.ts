@@ -18,9 +18,9 @@ export interface DatabaseConfig {
   readonly password: string;
 }
 
-export interface TokenConfig {
-  readonly jwtSecret: string;
-  readonly cookieSecret: string;
+export interface JWTCofnig {
+  readonly jwtSecretKey: string;
+  readonly cookieSecretKey: string;
   readonly accessTokenMaxAge: number;
   readonly refreshTokenMaxAge: number;
 }
@@ -30,11 +30,11 @@ export interface ThrottleConfig {
   readonly limit: number;
 }
 
-export type ConfigKey = 'app' | 'database' | 'token' | 'throttle';
+export type ConfigKey = 'app' | 'database' | 'jwt' | 'throttle';
 
 export interface Config {
   app: AppConfig;
   database: DatabaseConfig;
-  token: TokenConfig;
+  jwt: JWTCofnig;
   throttle: ThrottleConfig;
 }

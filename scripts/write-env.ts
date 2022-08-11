@@ -31,18 +31,18 @@ class WriteEnv {
     const { config }: { config: Config } = await import(configFilePath);
 
     // write env
-    const { app, token } = config;
+    const { app, jwt } = config;
     const { provider, host, database, userName, port, password } =
       config.database;
 
     const databaseUrl = `${provider}://${userName}:${password}@${host}:${port}/${database}?schema=public`;
     const envFilePath = path.resolve(process.cwd(), `.env`);
 
-    await fs.writeFileSync(
+    fs.writeFileSync(
       envFilePath,
       `PORT=${app.port}
       API_HOST=${app.apiHost}
-      COOKIE_SECRET=${token.cookieSecret}
+      COOKIE_SECRET=${jwt.cookieSecretKey}
 
       DATABASE_URL=${databaseUrl}
       `.replace(/ /gi, ''),
@@ -50,14 +50,8 @@ class WriteEnv {
   }
 }
 
-(async function () {
-  try {
-    const createEnv = new WriteEnv();
+const createEnv = new WriteEnv();
 
-    createEnv.write().then(() => {
-      process.exit(0);
-    });
-  } catch (error) {
-    throw new Error(error);
-  }
-})();
+createEnv.write().then(() => {
+  process.exit(0);
+});

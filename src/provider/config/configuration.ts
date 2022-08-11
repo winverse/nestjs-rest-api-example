@@ -9,10 +9,11 @@ const validate = (config: Config): void => {
     app: Joi.object().keys({
       environment: Joi.string().valid('development', 'production').required(),
       port: Joi.number().required(),
+      apiHost: Joi.string().required(),
     }),
-    token: Joi.object().keys({
-      jwtSecret: Joi.string().required(),
-      cookieSecret: Joi.string().required(),
+    jwt: Joi.object().keys({
+      jwtSecretKey: Joi.string().required(),
+      cookieSecretKey: Joi.string().required(),
       accessTokenMaxAge: Joi.number().integer().required(),
       refreshTokenMaxAge: Joi.number().integer().required(),
     }),
