@@ -4,6 +4,7 @@ export const config: Config = {
   app: {
     environment: 'development',
     port: 8080,
+    clientHost: 'http://localhost:3000',
     apiHost: 'http://localhost:8080',
   },
   database: {

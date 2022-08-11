@@ -9,6 +9,7 @@ const validate = (config: Config): void => {
     app: Joi.object().keys({
       environment: Joi.string().valid('development', 'production').required(),
       port: Joi.number().required(),
+      clientHost: Joi.string().required(),
       apiHost: Joi.string().required(),
     }),
     jwt: Joi.object().keys({
