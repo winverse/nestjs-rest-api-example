@@ -40,7 +40,7 @@
     "fastify": "^4.4.0",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
-    "parse-domain": "4",
+    "parse-domain": "5",
     "prisma": "^4.2.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",

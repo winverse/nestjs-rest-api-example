@@ -4143,10 +4143,10 @@ parent-module@^1.0.0:
   dependencies:
     callsites "^3.0.0"
 
-parse-domain@4:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/parse-domain/-/parse-domain-4.1.0.tgz#b2baae57db49f6fb805bb2dba7103ebf981a8ab7"
-  integrity sha512-zas79foMEsbMbIcJoPx26+NISWa3jTzZykOW9mXfRzvgadHvAHGd7qcCc1FbSWbD1I4qP71UWAxlTgu7Uq6IQg==
+parse-domain@5:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/parse-domain/-/parse-domain-5.0.0.tgz#cd6df1fd345f5722a0e55a3c13156057a4c7c151"
+  integrity sha512-sjvhVD0seIF3IquDLsbOE+6nekYyPzj4mGOMv4r9HIXalOjtTXb1uTZwtpQyp0myIoi9++w2eDqYOlCT5ic3+Q==
   dependencies:
     is-ip "^3.1.0"
     node-fetch "^2.6.1"
