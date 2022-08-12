@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigService } from '@provider/config';
-import { UtilsService } from '@provider/utils/utils.service';
+import { ConfigModule } from '@provider/config';
+import { UtilsModule } from '@provider/utils';
+
 import { CookieService } from './cookie.service';
 
 @Module({
-  imports: [ConfigService, UtilsService],
-  exports: [CookieService],
+  imports: [ConfigModule, UtilsModule],
   providers: [CookieService],
+  exports: [CookieService],
 })
 export class CookieModule {}

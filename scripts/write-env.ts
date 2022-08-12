@@ -28,9 +28,6 @@ class WriteEnv {
       throw new Error(`Not found [${envFile}.ts] config file`);
     }
 
-    const configFile = path.basename(configFilePath);
-
-    console.log('configFile', configFile);
     const { config }: { config: Config } = await import(configFilePath);
 
     // write env
