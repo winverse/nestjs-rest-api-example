@@ -11,7 +11,7 @@
   "scripts": {
     "prisma:generate": "yarn write:env && npx prisma generate",
     "prisma:push": "yarn write:env && npx prisma db push",
-    "write:env": "ts-node ./scripts/write-env.ts",
+    "write:env": "ts-node-esm ./scripts/write-env.ts",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
