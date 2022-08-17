@@ -1,3 +1,5 @@
+import { CorsPlugin } from '@common/plugins';
+import { VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import {
   FastifyAdapter,
@@ -10,6 +12,13 @@ async function bootstrap() {
     AppModule,
     new FastifyAdapter({ logger: true }),
   );
+
+  fastify.register(CorsPlugin);
+
+  fastify.setGlobalPrefix('/api');
+  fastify.enableVersioning({
+    type: VersioningType.URI,
+  });
 
   await fastify.listen(3000);
 }
