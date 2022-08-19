@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
+import { bcryptProvider } from '@provider/utils/utils.provider';
 import { UtilsService } from './utils.service';
 
 @Module({
-  providers: [UtilsService],
-  exports: [UtilsService],
+  providers: [...bcryptProvider, UtilsService],
+  exports: [...bcryptProvider, UtilsService],
 })
 export class UtilsModule {}

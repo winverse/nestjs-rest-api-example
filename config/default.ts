@@ -19,8 +19,8 @@ export const config: Config = {
     // Using openssl rand -hex 32
     jwtSecretKey: '',
     cookieSecretKey: '',
-    accessTokenMaxAge: 60 * 5, // 5 minute, max age base on 1ms
-    refreshTokenMaxAge: 60 * 60 * 24 * 7, // 7days
+    accessTokenMaxAge: 1000 * 60 * 5, // 5 minute, jwt token max age base on 1000ms
+    refreshTokenMaxAge: 1000 * 60 * 60 * 24 * 7, // 7days, jwt token max age base on 1000ms
   },
   throttle: {
     ttl: 1000 * 60, // the number of seconds that each request will last in storage

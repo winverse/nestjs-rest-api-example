@@ -6,6 +6,8 @@ import { JwtModule } from './provider/jwt/jwt.module';
 import { CookieModule } from './provider/cookie/cookie.module';
 import { UtilsModule } from './provider/utils/utils.module';
 import { LoggerModule } from './provider/logger/logger.module';
+import { UsersModule } from './module/users/users.module';
+import { AuthModule } from './module/auth/auth.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { LoggerModule } from './provider/logger/logger.module';
     CookieModule,
     UtilsModule,
     LoggerModule,
+    UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
