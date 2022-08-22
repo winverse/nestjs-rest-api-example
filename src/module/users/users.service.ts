@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { User } from '@prisma/client';
 import { ConfigService } from '@provider/config';
 import { CookieService } from '@provider/cookie';
 import { JwtService } from '@provider/jwt/jwt.service';
@@ -74,13 +75,44 @@ export class UsersService {
       throw new InternalServerErrorException(error);
     }
   }
-  async createUser(username: string, email: string, password: string) {
+  async createUser(username: string, email: string, hasedPassword: string) {
     try {
       const user = await this.prisma.user.create({
         data: {
           username,
           email,
-          password,
+          password: hasedPassword,
+        },
+      });
+
+      return user;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+  async checkExistsUser(
+    arg: string,
+    provider: 'email' | 'username',
+  ): Promise<boolean> {
+    const whereQuery = {
+      [provider]: arg,
+    };
+
+    try {
+      const exists = await this.prisma.user.findFirst({
+        where: whereQuery,
+      });
+
+      return !!exists;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+  async findByEmail(email: string): Promise<User | undefined> {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: {
+          email,
         },
       });
 
