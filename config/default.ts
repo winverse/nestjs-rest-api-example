@@ -26,4 +26,8 @@ export const config: Config = {
     ttl: 1000 * 60, // the number of seconds that each request will last in storage
     limit: 100, // the maximum number of requests within the TTL limit
   },
+  telegram: {
+    token: '',
+    error: '',
+  },
 };

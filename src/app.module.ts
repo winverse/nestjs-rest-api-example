@@ -8,6 +8,10 @@ import { UtilsModule } from './provider/utils/utils.module';
 import { LoggerModule } from './provider/logger/logger.module';
 import { UsersModule } from './module/users/users.module';
 import { AuthModule } from './module/auth/auth.module';
+import { BotModule } from './provider/bot/bot.module';
+import { HttpExceptionFilter } from '@common/filters';
+import { APP_FILTER } from '@nestjs/core';
+import { CoreModule } from './provider/core/core.module';
 
 @Module({
   imports: [
@@ -20,6 +24,14 @@ import { AuthModule } from './module/auth/auth.module';
     LoggerModule,
     UsersModule,
     AuthModule,
+    BotModule,
+    CoreModule,
+  ],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class AppModule {}

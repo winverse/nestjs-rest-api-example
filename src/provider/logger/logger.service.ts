@@ -68,7 +68,7 @@ export class LoggerService implements NestLogger {
     this.logger = winston.createLogger({
       level,
       levels,
-      format: format,
+      format,
       transports,
     });
   }
@@ -100,7 +100,6 @@ export class LoggerService implements NestLogger {
       const dir = this.logDir;
       const now = format(new Date(), 'yyyy-MM-dd');
       const filePath = `${dir}/error/${now}.log`;
-      console.log(log);
       fs.appendFileSync(filePath, `${log}\n`, 'utf8');
     } catch (error) {
       this.logger.error(JSON.stringify(error, null, 4));
@@ -110,13 +109,20 @@ export class LoggerService implements NestLogger {
     this.logger.info(message);
   }
   error(error: any) {
-    this.logger.error('');
-    Object.keys(error).map((key) => {
+    const time = format(new Date(), 'yyyy-MM-dd HH:mm:ss');
+
+    this.write(`[${time}]`);
+    if (typeof error === 'string') {
+      this.write(`${error}\n`);
+      return;
+    }
+
+    Object.entries(error).map(([key, value]) => {
       if (typeof error[key] === 'object') {
-        const line = `[${[key]}]: ${JSON.stringify(error[key])}`;
+        const line = `[${[key]}]: ${JSON.stringify(value)}`;
         this.write(line);
       } else {
-        const line = `[${[key]}]: ${error[key]}`;
+        const line = `[${[key]}]: ${value}`;
         this.write(line);
       }
     });

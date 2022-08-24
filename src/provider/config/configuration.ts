@@ -30,6 +30,10 @@ const validate = (config: Config): void => {
       ttl: Joi.number().integer().required(),
       limit: Joi.number().integer().required(),
     }),
+    telegram: Joi.object().keys({
+      token: Joi.string().required(),
+      error: Joi.string().required(),
+    }),
   });
 
   const { error } = schema.validate(config);

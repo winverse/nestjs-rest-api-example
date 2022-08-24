@@ -31,6 +31,12 @@ export interface ThrottleConfig {
   readonly limit: number;
 }
 
+export interface TelegramConfig {
+  readonly token: string;
+  readonly error: string; // error room Id
+  // Add some type room name
+}
+
 export type ConfigKey = 'app' | 'database' | 'jwt' | 'throttle';
 
 export interface Config {
@@ -38,4 +44,5 @@ export interface Config {
   database: DatabaseConfig;
   jwt: JWTCofnig;
   throttle: ThrottleConfig;
+  telegram: TelegramConfig;
 }
