@@ -1,32 +1,30 @@
-import { LoggedUserData } from '@module/users/users.interface';
+import type { LoggedUserData } from '@module/users/users.interface';
 import {
   DUPLICATED_EMAIL,
   DUPLICATED_USERNAME,
   LOGIN_INFORMATION_NOT_MATCH,
 } from '@constants/errors/errors.constants';
 import { AuthLoginBodyDto, AuthRegisterBodyDto } from '@module/auth/dto';
-import { UsersService } from '@module/users/users.service';
 import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '@provider/prisma';
+import { UsersService } from '@module/users/users.service';
 import { UtilsService } from '@provider/utils';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly userService: UsersService,
-    private readonly prismaService: PrismaService,
+    private readonly usersService: UsersService,
     private readonly utils: UtilsService,
   ) {}
   async register(body: AuthRegisterBodyDto): Promise<LoggedUserData> {
     try {
       const { email, username, password } = body;
 
-      const emailExists = await this.userService.checkExistsUser(
+      const emailExists = await this.usersService.checkExistsUser(
         email,
         'email',
       );
@@ -35,7 +33,7 @@ export class AuthService {
         throw new ConflictException(DUPLICATED_EMAIL);
       }
 
-      const usernameExists = await this.userService.checkExistsUser(
+      const usernameExists = await this.usersService.checkExistsUser(
         username,
         'username',
       );
@@ -46,13 +44,13 @@ export class AuthService {
 
       const hashedPassword = await this.utils.hashGenerate(password);
 
-      const user = await this.userService.createUser(
+      const user = await this.usersService.createUser(
         username,
         email,
         hashedPassword,
       );
 
-      const loggedUserData = await this.userService.getLoggedUserData(user.id);
+      const loggedUserData = await this.usersService.getLoggedUserData(user.id);
 
       return loggedUserData;
     } catch (error) {
@@ -63,7 +61,7 @@ export class AuthService {
     try {
       const { email, password: plainPassword } = body;
 
-      const user = await this.userService.findByEmail(email);
+      const user = await this.usersService.findByEmail(email);
 
       if (!user) {
         throw new NotFoundException(LOGIN_INFORMATION_NOT_MATCH);
@@ -78,7 +76,7 @@ export class AuthService {
         throw new ConflictException(LOGIN_INFORMATION_NOT_MATCH);
       }
 
-      const loggedUserData = await this.userService.getLoggedUserData(user.id);
+      const loggedUserData = await this.usersService.getLoggedUserData(user.id);
 
       return loggedUserData;
     } catch (error) {

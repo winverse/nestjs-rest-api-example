@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
-import { UsersModule } from '@module/users/users.module';
+import { UsersModule } from '@module/users';
 import { UtilsModule } from '@provider/utils';
 import { PrismaModule } from '@provider/prisma';
 import { CookieModule } from '@provider/cookie';
