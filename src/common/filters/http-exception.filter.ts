@@ -1,3 +1,4 @@
+import { mode } from '@common/helpers';
 import {
   ArgumentsHost,
   Catch,
@@ -42,8 +43,24 @@ export class HttpExceptionFilter implements ExceptionFilter {
       this.bot.telegramSendMessage('error', log);
     }
 
-    console.log((exception as any)?.message);
+    console.error(exception);
     this.logger.error(exception);
+
+    if (mode.isDev) {
+      const statusCode =
+        (exception as any).status || (exception as any).response?.statusCode;
+      const message = (exception as any).message;
+      const error = (exception as any).response?.error;
+
+      const res = {
+        statusCode,
+        message,
+        error,
+      };
+
+      reply.status(statusCode).send(res);
+      return;
+    }
 
     reply
       .status(HttpStatus.INTERNAL_SERVER_ERROR)
