@@ -1,5 +1,5 @@
 import path from 'path';
-import { CorsPlugin, MultipartPlugin } from '@common/plugins';
+import { CorsPlugin, MultipartPlugin, PingPlguin } from '@common/plugins';
 
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
@@ -25,12 +25,14 @@ async function bootstrap() {
   fastify.register(fastifyCookie, {
     secret: process.env.COOKIE_SECRET,
   });
-  fastify.register(MultipartPlugin);
 
   fastify.setGlobalPrefix('/api');
   fastify.enableVersioning({
     type: VersioningType.URI,
   });
+
+  fastify.register(MultipartPlugin);
+  fastify.register(PingPlguin);
 
   fastify.useGlobalPipes(
     new ValidationPipe({
