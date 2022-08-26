@@ -32,7 +32,8 @@ export class CookieService {
           }
         }
 
-        const stringifyPayload = JSON.stringify(payload);
+        const stringifyPayload =
+          typeof payload === 'string' ? payload : JSON.stringify(payload);
 
         reply.setCookie(name, stringifyPayload, {
           ...options,

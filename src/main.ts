@@ -25,14 +25,13 @@ async function bootstrap() {
   fastify.register(fastifyCookie, {
     secret: process.env.COOKIE_SECRET,
   });
+  fastify.register(MultipartPlugin);
+  fastify.register(PingPlugin);
 
   fastify.setGlobalPrefix('/api');
   fastify.enableVersioning({
     type: VersioningType.URI,
   });
-
-  fastify.register(MultipartPlugin);
-  fastify.register(PingPlugin);
 
   fastify.useGlobalPipes(
     new ValidationPipe({

@@ -27,14 +27,14 @@ export class UsersService {
       const jwtConfig = this.config.get('jwt');
       const { accessTokenMaxAge, refreshTokenMaxAge } = jwtConfig;
 
-      const accessToken = this.jwt.signToken(
+      const accessToken = await this.jwt.signToken(
         { user: LoggedUserData },
         {
           expiresIn: accessTokenMaxAge,
         },
       );
 
-      const refreshToken = this.jwt.signToken(
+      const refreshToken = await this.jwt.signToken(
         { userId: LoggedUserData.id },
         {
           expiresIn: refreshTokenMaxAge,

@@ -43,14 +43,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
       this.bot.telegramSendMessage('error', log);
     }
 
-    console.error(exception);
+    const exceptionResponse = (exception as any).response;
+
+    console.error((exception as any).response);
     this.logger.error(exception);
 
     if (mode.isDev) {
       const statusCode =
-        (exception as any).status || (exception as any).response?.statusCode;
-      const message = (exception as any).message;
-      const error = (exception as any).response?.error;
+        (exception as any).status || exceptionResponse?.statusCode;
+      const message = exceptionResponse?.message;
+      const error = exceptionResponse?.error;
 
       const res = {
         statusCode,

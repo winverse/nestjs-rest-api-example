@@ -1,5 +1,9 @@
 import { UsersService } from '@module/users/users.service';
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  OnModuleInit,
+} from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { CookieService } from '@provider/cookie';
 import { JwtService } from '@provider/jwt';
@@ -42,6 +46,7 @@ export class CoreService implements OnModuleInit {
           );
 
           await this.usersService.setJwtToken(reply, loggedUserData);
+
           request.user = loggedUserData;
 
           const diff = decoded.exp * 1000 - new Date().getTime();
@@ -53,10 +58,9 @@ export class CoreService implements OnModuleInit {
 
         // Add something
       } catch (error) {
-        // Not caught in an exception filter
-        console.error('Processing token error');
         this.cookie.clearCookie(reply, 'access_token');
         this.cookie.clearCookie(reply, 'refresh_token');
+        throw new InternalServerErrorException(error);
       }
     });
   }
