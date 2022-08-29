@@ -65,7 +65,7 @@ export class CookieService {
     });
   }
 
-  async clearCookie(reply: FastifyReply, name: string): Promise<void> {
+  clearCookie(reply: FastifyReply, name: string): void {
     try {
       this.setCookie(reply, name, '', { maxAge: 0 });
     } catch (error) {

@@ -22,8 +22,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const reply = ctx.getResponse<FastifyReply>();
 
     if (exception instanceof HttpException) {
-      const message = exception.message;
-      const statusCode = exception.getStatus();
+      const exceptionResponse: any = exception.getResponse();
+
+      const statusCode =
+        exceptionResponse?.status || exceptionResponse.statusCode;
+      const message = exceptionResponse?.message;
+      const error = exceptionResponse?.error;
 
       const user = request.user;
       const log = `
@@ -40,19 +44,12 @@ export class HttpExceptionFilter implements ExceptionFilter {
         query: ${JSON.stringify(Object.assign({}, request.query), null, 4)}
       `;
 
-      this.bot.telegramSendMessage('error', log);
-    }
+      if (mode.isProd) {
+        this.bot.telegramSendMessage('error', log);
+        this.logger.error(exception);
+      }
 
-    const exceptionResponse = (exception as any).response;
-
-    console.error((exception as any).response);
-    this.logger.error(exception);
-
-    if (mode.isDev) {
-      const statusCode =
-        (exception as any).status || exceptionResponse?.statusCode;
-      const message = exceptionResponse?.message;
-      const error = exceptionResponse?.error;
+      console.error(exceptionResponse);
 
       const res = {
         statusCode,
@@ -61,11 +58,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       };
 
       reply.status(statusCode).send(res);
-      return;
+    } else {
+      console.error(exception);
+      reply
+        .status(HttpStatus.INTERNAL_SERVER_ERROR)
+        .send('internal server error');
     }
-
-    reply
-      .status(HttpStatus.INTERNAL_SERVER_ERROR)
-      .send('INTERNAL_SERVER_ERROR');
   }
 }

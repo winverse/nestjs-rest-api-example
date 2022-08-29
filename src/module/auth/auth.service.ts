@@ -1,4 +1,3 @@
-import type { LoggedUserData } from '@module/users/users.interface';
 import {
   DUPLICATED_EMAIL,
   DUPLICATED_USERNAME,
@@ -13,14 +12,20 @@ import {
 } from '@nestjs/common';
 import { UsersService } from '@module/users/users.service';
 import { UtilsService } from '@provider/utils';
+import { CookieService } from '@provider/cookie';
+import type { FastifyReply } from 'fastify';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly utils: UtilsService,
+    private readonly cookie: CookieService,
   ) {}
-  async register(body: AuthRegisterBodyDto): Promise<LoggedUserData> {
+  async register(
+    body: AuthRegisterBodyDto,
+    reply: FastifyReply,
+  ): Promise<void> {
     try {
       const { email, username, password } = body;
 
@@ -52,12 +57,12 @@ export class AuthService {
 
       const loggedUserData = await this.usersService.getLoggedUserData(user.id);
 
-      return loggedUserData;
+      await this.usersService.setJwtToken(reply, loggedUserData);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
-  async login(body: AuthLoginBodyDto): Promise<LoggedUserData> {
+  async login(body: AuthLoginBodyDto, reply: FastifyReply): Promise<void> {
     try {
       const { email, password: plainPassword } = body;
 
@@ -78,7 +83,16 @@ export class AuthService {
 
       const loggedUserData = await this.usersService.getLoggedUserData(user.id);
 
-      return loggedUserData;
+      await this.usersService.setJwtToken(reply, loggedUserData);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async logout(reply: FastifyReply) {
+    try {
+      this.cookie.clearCookie(reply, 'access_token');
+      this.cookie.clearCookie(reply, 'refresh_token');
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
