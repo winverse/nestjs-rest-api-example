@@ -12,6 +12,8 @@ import { BotModule } from './provider/bot/bot.module';
 import { HttpExceptionFilter } from '@common/filters';
 import { APP_FILTER } from '@nestjs/core';
 import { CoreModule } from './provider/core/core.module';
+import { PostsModule } from './module/posts/posts.module';
+import { FuseModule } from './provider/fuse/fuse.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { CoreModule } from './provider/core/core.module';
     AuthModule,
     BotModule,
     CoreModule,
+    PostsModule,
+    FuseModule,
   ],
   providers: [
     {

@@ -18,10 +18,12 @@ model User {
 }
 
 model Post {
-  id        String @id @default(cuid())
-  title     String @db.VarChar(50)
-  content   String @db.Text
-  thumbnail String @db.VarChar()
-  fkUserId  String @unique
-  user      User   @relation(fields: [fkUserId], references: [id], onDelete: Cascade)
+  id        String   @id @default(cuid())
+  title     String   @db.VarChar(50)
+  contents  String   @db.Text
+  thumbnail String   @db.VarChar()
+  fkUserId  String   @unique
+  createdAt DateTime @default(now()) @db.Timestamptz(6)
+  updatedAt DateTime @updatedAt @db.Timestamptz(6)
+  user      User     @relation(fields: [fkUserId], references: [id], onDelete: Cascade)
 }
