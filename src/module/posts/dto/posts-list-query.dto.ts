@@ -3,7 +3,7 @@ import { IsInt, IsOptional, IsString } from 'class-validator';
 
 export class PostsListQueryDto {
   @ApiProperty({
-    example: 'Typescript',
+    example: 'typescript',
   })
   @IsString()
   @IsOptional()

@@ -22,7 +22,7 @@ model Post {
   title     String   @db.VarChar(50)
   contents  String   @db.Text
   thumbnail String   @db.VarChar()
-  fkUserId  String   @unique
+  fkUserId  String
   createdAt DateTime @default(now()) @db.Timestamptz(6)
   updatedAt DateTime @updatedAt @db.Timestamptz(6)
   user      User     @relation(fields: [fkUserId], references: [id], onDelete: Cascade)

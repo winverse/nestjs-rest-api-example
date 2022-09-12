@@ -1,5 +1,5 @@
 import { NOT_FOUND_POST } from '@constants/errors/errors.constants';
-import { PostWriteBodyDto } from '@module/posts/dto';
+import { PostsWriteBodyDto } from '@module/posts/dto';
 import { PostsListQueryDto } from '@module/posts/dto/posts-list-query.dto';
 import { PostListType } from '@module/posts/posts.interface';
 import {
@@ -16,7 +16,7 @@ export class PostsService {
     private readonly prisma: PrismaService,
     private readonly fuse: FuseService,
   ) {}
-  async create(body: PostWriteBodyDto, userId: string) {
+  async create(body: PostsWriteBodyDto, userId: string) {
     try {
       const { title, contents, thumbnail } = body;
       await this.prisma.post.create({
@@ -36,6 +36,20 @@ export class PostsService {
       const post = await this.prisma.post.findUnique({
         where: {
           id: postId,
+        },
+        select: {
+          id: true,
+          title: true,
+          contents: true,
+          thumbnail: true,
+          createdAt: true,
+          user: {
+            select: {
+              id: true,
+              email: true,
+              username: true,
+            },
+          },
         },
       });
 
@@ -93,6 +107,31 @@ export class PostsService {
       throw new InternalServerErrorException(error);
     }
   }
+  async update(body: PostsWriteBodyDto, userId: string, postId: string) {
+    try {
+      const post = await this.prisma.post.findFirst({
+        where: {
+          id: postId,
+          fkUserId: userId,
+        },
+      });
+
+      if (!post) {
+        throw new NotFoundException(NOT_FOUND_POST);
+      }
+
+      await this.prisma.post.update({
+        where: {
+          id: postId,
+        },
+        data: {
+          ...body,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
   async delete(postId: string) {
     try {
       const post = await this.prisma.post.findFirst({
@@ -110,24 +149,6 @@ export class PostsService {
           id: postId,
         },
       });
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-  async update(body: PostWriteBodyDto, userId: string, postId: string) {
-    try {
-      const post = await this.prisma.post.findUnique({
-        where: {
-          id: postId,
-          fkUserId: userId,
-        },
-      });
-
-      if (!post) {
-        throw new NotFoundException(NOT_FOUND_POST);
-      }
-
-      return post;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
