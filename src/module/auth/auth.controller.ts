@@ -10,8 +10,10 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import type { FastifyReply } from 'fastify';
 
+@ApiTags('auth')
 @Controller({
   path: '/auth',
   version: ['1'],

@@ -1,6 +1,6 @@
 import { NOT_FOUND_POST } from '@constants/errors/errors.constants';
-import { PostBody } from '@module/posts/dto';
-import { PostsListQuery } from '@module/posts/dto/posts-list-query';
+import { PostWriteBodyDto } from '@module/posts/dto';
+import { PostsListQueryDto } from '@module/posts/dto/posts-list-query.dto';
 import { PostListType } from '@module/posts/posts.interface';
 import {
   Injectable,
@@ -16,7 +16,7 @@ export class PostsService {
     private readonly prisma: PrismaService,
     private readonly fuse: FuseService,
   ) {}
-  async create(body: PostBody, userId: string) {
+  async create(body: PostWriteBodyDto, userId: string) {
     try {
       const { title, contents, thumbnail } = body;
       await this.prisma.post.create({
@@ -44,7 +44,7 @@ export class PostsService {
       throw new InternalServerErrorException(error);
     }
   }
-  async findMany(query: PostsListQuery) {
+  async findMany(query: PostsListQueryDto) {
     try {
       const { page, limit, keyword } = query;
 
@@ -95,6 +95,16 @@ export class PostsService {
   }
   async delete(postId: string) {
     try {
+      const post = await this.prisma.post.findFirst({
+        where: {
+          id: postId,
+        },
+      });
+
+      if (!post) {
+        throw new NotFoundException(NOT_FOUND_POST);
+      }
+
       await this.prisma.post.delete({
         where: {
           id: postId,
@@ -104,7 +114,7 @@ export class PostsService {
       throw new InternalServerErrorException(error);
     }
   }
-  async update(body: PostBody, userId: string, postId: string) {
+  async update(body: PostWriteBodyDto, userId: string, postId: string) {
     try {
       const post = await this.prisma.post.findUnique({
         where: {

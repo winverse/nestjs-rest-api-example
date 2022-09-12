@@ -10,6 +10,7 @@ import {
 import fastifyStatic from '@fastify/static';
 import fastifyCookie from '@fastify/cookie';
 import { AppModule } from './app.module';
+import { swagger } from './swagger';
 
 async function bootstrap() {
   const fastify = await NestFactory.create<NestFastifyApplication>(
@@ -45,9 +46,16 @@ async function bootstrap() {
     }),
   );
 
-  const PORT = process.env.PORT;
+  swagger(fastify);
 
-  await fastify.listen(PORT);
+  const PORT = process.env.PORT;
+  const DATABASE_URL = process.env.DATABASE_URL;
+
+  await fastify.listen(PORT, (err, address) => {
+    console.log(`Server is Running: ${address}`);
+    console.log(`Swagger: ${address}/api/documentation`);
+    console.log(`Database URL: ${DATABASE_URL}`);
+  });
 }
 
 bootstrap();
